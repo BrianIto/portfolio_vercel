@@ -46,22 +46,11 @@ export default function Home() {
     setLoading(false);
   }
 
-  let string = `window.dataLayer = window.dataLayer || [];
-
-  function gtag() {
-    dataLayer.push(arguments);
-  }
-  gtag("js", new Date());
-
-  gtag("config", "G-JT45FFM835");`
-
   return (
     <div className={styles.container}>
       <Head>
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-JT45FFM835" > </script> 
-        <script>
-           {string}
-        </script>
+        <script src="/ga.js"></script>
         <title>Brian Ito - Web Developer</title>
       </Head>
       <div className={overlay ? styles.modal : styles.modal + " " + styles.hidden}>
