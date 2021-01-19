@@ -52,14 +52,14 @@ export default function Home() {
       <Head>
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-JT45FFM835" > </script> 
         <script >
-          {`window.dataLayer = window.dataLayer || [];
+          window.dataLayer = window.dataLayer || [];
 
         function gtag() {
           dataLayer.push(arguments);
         }
         gtag("js", new Date());
 
-        gtag("config", "G-JT45FFM835");`} 
+        gtag("config", "G-JT45FFM835");
         </script>
         <title>Brian Ito - Web Developer</title>
       </Head>
