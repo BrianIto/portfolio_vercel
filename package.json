@@ -1,6 +1,7 @@
 {
   "name": "portfolio",
   "version": "0.1.0",
+  "homepage": "/",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -8,7 +9,10 @@
     "start": "next start"
   },
   "dependencies": {
+    "@svgr/webpack": "^5.5.0",
+    "axios": "^0.21.1",
     "next": "10.0.5",
+    "node-sass": "^5.0.0",
     "react": "17.0.1",
     "react-dom": "17.0.1"
   }
