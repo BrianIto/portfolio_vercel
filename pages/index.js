@@ -50,16 +50,16 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        < script async src = "https://www.googletagmanager.com/gtag/js?id=G-JT45FFM835" > </script> 
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-JT45FFM835" > </script> 
         <script >
           {`window.dataLayer = window.dataLayer || [];
 
         function gtag() {
           dataLayer.push(arguments);
         }
-        gtag('js', new Date());
+        gtag("js", new Date());
 
-        gtag('config', 'G-JT45FFM835');`} 
+        gtag("config", "G-JT45FFM835");`} 
         </script>
         <title>Brian Ito - Web Developer</title>
       </Head>
