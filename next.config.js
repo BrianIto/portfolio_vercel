@@ -1,10 +1,4 @@
 module.exports = {
-    exportPathMap: () => ({
-            '/': {
-                page: '/'
-            },
-        }),
-        basePath: '/portfolio',
     webpack(config) {
         config.module.rules.push({
             test: /\.svg$/,
