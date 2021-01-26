@@ -34,7 +34,7 @@ export default function Home() {
     try {
     const form = e.target;
     const [name, email] = [form.name.value, form.email.value];
-    const response = await axios.post('https://api.brainstorm.qsimporta.com/twilio/send_wpp', {
+    const response = await axios.post('https://api.brainstorm.qsimporta.com/twilio/twilio/send_wpp', {
         message: "Novo usuário cadastrado para Lead:\n" +
           "*Nome*: " + name + "\n" +
           "*E-mail*: " + email,
