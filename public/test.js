@@ -53,7 +53,7 @@ const vertex = `
         dpr: 2
     });
     const gl = renderer.gl;
-    gl.canvas.style.position = 'absolute';
+    gl.canvas.style.position = 'fixed';
     gl.canvas.style.top = 0;
     gl.canvas.style.left = 0;
     gl.canvas.style.zIndex = -1;

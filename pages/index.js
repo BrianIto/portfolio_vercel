@@ -7,12 +7,18 @@ import InstagramIcon from '../public/instagram.svg';
 import WhatsappIcon from "../public/whatsapp.svg";
 import Head from 'next/head';
 import React from 'react';
-import axios from 'axios';
+import PaginaInicial from '../src/PageInicial'
+import PageIntegraCase from '../src/PageIntegraCase/PageIntegraCase'
 
 export default function Home() {
 
-  const [overlay, setOverlay] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
+  const pageRef = React.useRef({
+    value: 0,
+    up() { this.value++ },
+    down() { this.value-- }
+  });
+
+  const [lastScroll, setLastScroll] = React.useState(0);
 
   useScript('./test.js')
 
@@ -28,23 +34,35 @@ export default function Home() {
     window.open(urls[type]);
   }
 
-  const onSubmit = async e => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-    const form = e.target;
-    const [name, email] = [form.name.value, form.email.value];
-    const response = await axios.post('https://api.brainstorm.qsimporta.com/twilio/twilio/send_wpp', {
-        message: "Novo usuário cadastrado para Lead:\n" +
-          "*Nome*: " + name + "\n" +
-          "*E-mail*: " + email,
-        nome: name
-      })
-    } catch(e) {
-      alert("Erro ao enviar seus dados... :(\n Erro: "+e);
+  React.useImperativeHandle(
+    (pageRef),
+    () => ({ value: 0,
+      up() { this.value-- },
+      down() { this.value++ }
+    }),
+    [],
+  )
+
+  const scrollEvent = (e) => {
+    let sTop = e.target.lastChild.scrollTop;    
+    window.removeEventListener('scroll', scrollEvent);
+    setTimeout(() => {
+      window.addEventListener('scroll', scrollEvent);
+    }, 400);
+    if (lastScroll < sTop) {
+      pageRef.current.down();
+      console.log('scroll down');
+    } else {
+      pageRef.current.up();
+      console.log('scroll up');
     }
-    setLoading(false);
+    setLastScroll(e.target.lastChild.scrollTop);
   }
+
+  React.useEffect(() => {
+    pageRef.current.initialize;
+    window.addEventListener('scroll', scrollEvent)
+  }, [])
 
   return (
     <div className={styles.container}>
@@ -53,35 +71,6 @@ export default function Home() {
         <script src="/ga.js"></script>
         <title>Brian Ito - Web Developer</title>
       </Head>
-      <div className={overlay ? styles.modal : styles.modal + " " + styles.hidden}>
-        <div>
-          <h1>Let's Talk!</h1>
-          <p>Please, fill your <b>name</b> and your <b>e-mail</b> below and I will
-           contact you pretty soon! Get in touch.</p>
-           <form onSubmit={onSubmit}>
-             <div className={styles.inputs}>
-               <input 
-                  name="name" 
-                  required
-                  type="text" 
-                  placeholder="Name" 
-                  className={styles.input}></input>
-               <input 
-                  name="email" 
-                  required
-                  type="email" 
-                  placeholder="E-mail" 
-                  className={styles.input}></input> 
-             </div>
-             <button 
-              type="submit"
-              disabled={loading}
-              className={styles.btn}>
-                {loading ? "Carregando" : "Confirmar"}
-              </button>
-           </form>
-        </div>
-      </div>
       <div className={styles.icons}>
         <FacebookIcon onClick={() => onClick('facebook')} className={styles.svg} />
         <GithubIcon onClick={() => onClick('github')} className={styles.svg}/>
@@ -89,22 +78,8 @@ export default function Home() {
         <InstagramIcon onClick={() => onClick('instagram')} className={styles.svg}/>
         <WhatsappIcon onClick={() => onClick('whatsapp')} className={styles.svg}/>
       </div>
-      <div className={styles.text}>
-        <h2>Hey, I'm Brian.</h2>
-        <h1>Building Technology To Simplify Processes.</h1>
-        <p> Doing something must be useful and / or delightful. If it is not, probably your collaborators or you would be thinking about doing something
-        else. People get stressed and that stress lead to mistakes, mistakes leads to more work, and people get even more stressed. Stop the cycle.
-        Let catalysts do the work for you. </p>
-        <button onClick={() => {
-          setOverlay(true);
-        }}>I want to Automatize!</button>
-      </div>
-      <img src="./Grupo8.png" className={styles.picture}/>
-      <div 
-        onClick={() => setOverlay(false)}
-        className={
-          overlay ? styles.overlay :
-          styles.overlay+" "+styles.hidden}></div>
+      <PaginaInicial pageSelected={pageRef.current.value} />
+      <PageIntegraCase pageSelected={pageRef.current.value} />
     </div>
   )
 }
