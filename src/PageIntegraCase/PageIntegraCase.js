@@ -3,7 +3,6 @@ import styles from "./PageIntegraCase.module.sass";
 import PageStyles from "../../styles/Home.module.sass";
 
 const PageIntegraCase = ({pageSelected}) => {
-    
     return (<section className={pageSelected === 1 ?
      PageStyles.page +" " + styles.section : styles.section+" "+ PageStyles.page+" "+ PageStyles.hidden}>
         <header>

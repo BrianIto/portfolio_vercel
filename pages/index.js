@@ -9,19 +9,15 @@ import Head from 'next/head';
 import React from 'react';
 import PaginaInicial from '../src/PageInicial'
 import PageIntegraCase from '../src/PageIntegraCase/PageIntegraCase'
+import debounce from 'debounce'
 
 export default function Home() {
-
-  const pageRef = React.useRef({
-    value: 0,
-    up() { this.value++ },
-    down() { this.value-- }
-  });
-
-  const [lastScroll, setLastScroll] = React.useState(0);
-
+  
   useScript('./test.js')
 
+  const [selectedPage, setSelectedPage] = React.useState(0);
+  const [ts, setTS] = React.useState(0);
+  const [tE, setTE] = React.useState(0);
   const urls = {
     facebook: 'https://www.facebook.com/BriianIto',
     github: 'https://github.com/BrianIto',
@@ -34,52 +30,69 @@ export default function Home() {
     window.open(urls[type]);
   }
 
-  React.useImperativeHandle(
-    (pageRef),
-    () => ({ value: 0,
-      up() { this.value-- },
-      down() { this.value++ }
-    }),
-    [],
-  )
-
-  const scrollEvent = (e) => {
-    let sTop = e.target.lastChild.scrollTop;    
-    window.removeEventListener('scroll', scrollEvent);
-    setTimeout(() => {
-      window.addEventListener('scroll', scrollEvent);
-    }, 400);
-    if (lastScroll < sTop) {
-      pageRef.current.down();
-      console.log('scroll down');
+  const changePage = (up) => {
+    if (up) {
+       (selectedPage === 0) ? '' : setSelectedPage(selectedPage - 1);
     } else {
-      pageRef.current.up();
-      console.log('scroll up');
+        (selectedPage === 1) ? '' : setSelectedPage(selectedPage + 1);
     }
-    setLastScroll(e.target.lastChild.scrollTop);
   }
 
-  React.useEffect(() => {
-    pageRef.current.initialize;
-    window.addEventListener('scroll', scrollEvent)
-  }, [])
+  const onWheel = (e) => {
+    if (e.nativeEvent.wheelDelta > 0) {
+          changePage(true);
+        } else {
+          changePage(false);
+        }
+  }
 
   return (
-    <div className={styles.container}>
-      <Head>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-JT45FFM835" > </script> 
-        <script src="/ga.js"></script>
-        <title>Brian Ito - Web Developer</title>
-      </Head>
-      <div className={styles.icons}>
-        <FacebookIcon onClick={() => onClick('facebook')} className={styles.svg} />
-        <GithubIcon onClick={() => onClick('github')} className={styles.svg}/>
-        <LinkedInIcon onClick={() => onClick('linkedin')} className={styles.svg}/>
-        <InstagramIcon onClick={() => onClick('instagram')} className={styles.svg}/>
-        <WhatsappIcon onClick={() => onClick('whatsapp')} className={styles.svg}/>
+    <div onWheel={debounce(onWheel, 210)} 
+      onTouchStart={e => {
+        setTS(e.nativeEvent.touches[0].clientY)
+      }}
+      onTouchEnd={e => {
+        let tEnd = e.nativeEvent.changedTouches[0].clientY;
+        if (ts > tEnd + 5) {
+        //  console.log('scrollTop')
+          changePage(false)
+      } else if (ts === tEnd) {
+          console.log('click')
+        } else {
+          changePage(true)
+          console.log('scrollDown')
+        }
+        setTS(0);
+      }}>
+      <div className={styles.scroll_detector} />
+      <div className={styles.container}>
+        <Head>
+          <script 
+            async 
+            src="https://www.googletagmanager.com/gtag/js?id=G-JT45FFM835"/> 
+          <script src="/ga.js"/>
+          <title>Brian Ito - Web Developer</title>
+        </Head>
+        <div className={styles.icons}>
+          <FacebookIcon 
+            onClick={() => onClick('facebook')} 
+            className={styles.svg} />
+          <GithubIcon 
+            onClick={() => onClick('github')} 
+            className={styles.svg}/>
+          <LinkedInIcon 
+            onClick={() => onClick('linkedin')} 
+            className={styles.svg}/>
+          <InstagramIcon 
+            onClick={() => onClick('instagram')} 
+            className={styles.svg}/>
+          <WhatsappIcon 
+            onClick={() => onClick('whatsapp')} 
+            className={styles.svg}/>
+        </div>
+        <PaginaInicial pageSelected={selectedPage} />
+        <PageIntegraCase pageSelected={selectedPage} />
       </div>
-      <PaginaInicial pageSelected={pageRef.current.value} />
-      <PageIntegraCase pageSelected={pageRef.current.value} />
     </div>
   )
 }

@@ -5,10 +5,6 @@ const PaginaInicial = ({ pageSelected }) => {
 
     const [overlay, setOverlay] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
-    
-    React.useEffect(() => {
-      console.log(pageSelected);
-    }, [pageSelected]);
 
     const onSubmit = async e => {
         e.preventDefault();
