@@ -10,6 +10,7 @@ import React from 'react';
 import PaginaInicial from '../src/PageInicial'
 import PageIntegraCase from '../src/PageIntegraCase/PageIntegraCase'
 import debounce from 'debounce'
+import PageIntegraResults from '../src/PageIntegraResults/PageIntegraResults';
 
 export default function Home() {
   
@@ -34,7 +35,7 @@ export default function Home() {
     if (up) {
        (selectedPage === 0) ? '' : setSelectedPage(selectedPage - 1);
     } else {
-        (selectedPage === 1) ? '' : setSelectedPage(selectedPage + 1);
+        (selectedPage === 2) ? '' : setSelectedPage(selectedPage + 1);
     }
   }
 
@@ -92,6 +93,7 @@ export default function Home() {
         </div>
         <PaginaInicial pageSelected={selectedPage} />
         <PageIntegraCase pageSelected={selectedPage} />
+        <PageIntegraResults pageSelected={selectedPage} />
       </div>
     </div>
   )

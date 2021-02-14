@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from "../styles/Home.module.sass";
+import axios from 'axios';
 
 const PaginaInicial = ({ pageSelected }) => {
 
