@@ -1,4 +1,23 @@
 @import "variables.sass"
+
+  
+@keyframes blink
+  0%
+    transform: scale(1)
+  50%
+    transform: scale(0.8)
+  100%
+    transform: scale(1)
+
+
+.blinking
+  position: absolute
+  width: 8px
+  border-radius: 500px
+  height: 8px
+  background-color: #FFF
+  animation: blink 1s ease-in-out infinite
+
 .scroll_detector
   position: absolute
   top: 0

@@ -63,6 +63,7 @@ const PaginaInicial = ({ pageSelected }) => {
       </div>
       <div className={pageSelected === 0 ? styles.page : styles.page+" "+ styles.hidden} style={{display: 'flex'}}>
         <div className={styles.text}>
+            <img style={{position: 'absolute', top: 10, left: 140, width: 150}} src="https://media.giphy.com/media/HSRadJ4iwheniijBX6/giphy.gif" />
             <h2>Hey, I'm Brian.</h2>
             <h1>Building Technology To Simplify Processes.</h1>
             <p> Doing something must be useful and / or delightful. If it is not, probably your collaborators or you would be thinking about doing something

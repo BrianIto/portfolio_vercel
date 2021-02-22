@@ -68,6 +68,7 @@ export default function Home() {
       <div className={styles.scroll_detector} />
       <div className={styles.container}>
         <Head>
+          <script src="https://raw.githubusercontent.com/VincentGarreau/particles.js/master/particles.min.js"/>
           <script 
             async 
             src="https://www.googletagmanager.com/gtag/js?id=G-JT45FFM835"/> 
@@ -91,10 +92,18 @@ export default function Home() {
             onClick={() => onClick('whatsapp')} 
             className={styles.svg}/>
         </div>
+        <div id="particles-js"></div>
         <PaginaInicial pageSelected={selectedPage} />
         <PageIntegraCase pageSelected={selectedPage} />
         <PageIntegraResults pageSelected={selectedPage} />
       </div>
+      <script>
+            {`
+                particlesJS.load('particles-js', '/particles.json', function() {
+                console.log('callback - particles.js config loaded');
+              });
+            `}
+          </script>
     </div>
   )
 }
